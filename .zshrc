@@ -48,11 +48,12 @@ export LSCOLORS=HxFxCxDxBxegedabagaced
 
 
 # completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # aliases
 alias ls='ls --color'
+alias c='clear'
 
 alias gs='git status --short'
 alias ga='git add'

@@ -39,13 +39,13 @@ white = "0xD9E0EE"
 yellow = "0xFAE3B0"
 
 [colors.primary]
-background = "0x1E1D2F"
+background = "0x0C0B12"
 foreground = "0xD9E0EE"
 
 [cursor]
 blink_interval = 500
 blink_timeout = 5
-unfocused_hollow = false
+unfocused_hollow = true
 
 [cursor.style]
 blinking = "Off"

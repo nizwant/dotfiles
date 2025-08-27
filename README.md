@@ -6,25 +6,21 @@ This directory contains the dotfiles for my system.
 
 Ensure you have the following installed on your system:
 
-### Git
+- Git  
+- GNU Stow  
+- Zsh  
+
+### macOS (Homebrew)
 
 ```bash
-brew install git
-sudo apt install git
+brew install git stow zsh
 ```
 
-### Stow
+### Ubuntu/Debian
 
 ```bash
-brew install stow
-sudo apt install stow
-```
-
-### Zsh
-
-```bash
-brew install zsh
-sudo apt install zsh -y
+sudo apt update
+sudo apt install git stow zsh -y
 ```
 
 and run command to change default shell
@@ -54,4 +50,4 @@ for tmux you need to install tmp
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-To observe changes reload tmux using [Prefix key] + i
+To apply changes reload tmux using [Prefix key] + i

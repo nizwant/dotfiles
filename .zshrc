@@ -40,7 +40,7 @@ autoload -Uz compinit && compinit
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
-# history
+# History
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
@@ -57,23 +57,39 @@ setopt extended_history
 export LSCOLORS=HxFxCxDxBxegedabagaced
 
 
-# completion styling
+# Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# aliases
+# Misc aliases
 alias ls='ls --color'
 alias c='clear'
 
+# Directory navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ~='cd ~'
+
+# Git aliases
 alias gs='git status --short'
 alias ga='git add'
-alias gc='git commit'
+alias gaa='git add --all'
+alias gc='git commit -m'
+alias gca='git commit --amend'
 alias gco='git checkout'
-alias gn='git checkout -b'  # new branch
+alias gcb='git checkout -b'  # create new branch
 alias gp='git push'
-alias gu='git pull'
+alias gpl='git pull'
+alias gf='git fetch'
+alias gl='git log --oneline --graph --decorate'
+alias gd='git diff'
+alias gds='git diff --staged'
 alias gi='git init'
 alias gcl='git clone'
+alias gbr='git branch'
+alias gbd='git branch -d'  # delete branch
+alias gm='git merge'
 
 
 # Network

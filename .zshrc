@@ -23,6 +23,9 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
+zinit light MichaelAquilina/zsh-you-should-use
+zinit light djui/alias-tips
+zinit light hlissner/zsh-autopair
 zinit light zsh-users/zsh-history-substring-search
 
 
@@ -71,3 +74,8 @@ alias gp='git push'
 alias gu='git pull'
 alias gi='git init'
 alias gcl='git clone'
+
+
+# Network
+alias myip='curl -s ifconfig.me'
+alias ports='netstat -tulanp'

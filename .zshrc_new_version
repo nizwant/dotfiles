@@ -20,9 +20,9 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting # command red if typo, green if good
+zinit light zsh-users/zsh-completions # press tab to autocomplete popular cli like docker or git
+zinit light zsh-users/zsh-autosuggestions  # shows in gray text recent commands 
 zinit light zsh-users/zsh-history-substring-search
 
 # Additional useful plugins

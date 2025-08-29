@@ -23,12 +23,6 @@ sudo apt update
 sudo apt install git stow zsh -y
 ```
 
-and run command to change default shell
-
-```bash
-chsh -s $(which zsh)
-```
-
 ## Installation
 
 First, check out the dotfiles repo in your $HOME directory using git:
@@ -44,10 +38,18 @@ then use GNU stow to create symlinks:
 stow .
 ```
 
+and run command to change default shell
+
+```bash
+chsh -s $(which zsh)
+```
+
 for tmux you need to install tmp
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-To apply changes reload tmux using [Prefix key] + i
+Exit from the shell and reconnect again. Your zsh configuration will load automatically and begin downloading the required packages. Wait for the process to complete, and your zsh setup with all plugins should be ready to use.
+
+The tmux should also load automatically the config file, to things like mouse support should work out of the box but to download plugins using tpm use [Prefix key] + I.

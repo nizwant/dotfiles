@@ -50,6 +50,6 @@ for tmux you need to install tmp
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Exit from the shell and reconnect again. Your zsh configuration will load automatically and begin downloading the required packages. Wait for the process to complete, and your zsh setup with all plugins should be ready to use.
+**Exit from the shell and reconnect again.** Your zsh configuration will load automatically and begin downloading the required packages. Wait for the process to complete, and your zsh setup with all plugins should be ready to use.
 
-The tmux should also load automatically the config file, to things like mouse support should work out of the box but to download plugins using tpm use [Prefix key] + I.
+The tmux should also load automatically the config file, so things like mouse support should work out of the box but to download tpm plugins use `[Prefix key] + I`. After that you should see new theme.

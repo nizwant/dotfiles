@@ -1,14 +1,17 @@
-# My dotfiles
+# Dotfiles Setup Guide
 
-This directory contains the dotfiles for my system.
+These are my personal dotfiles, managed with **GNU Stow**.  
+Follow this guide to set them up on your system.
+
+---
 
 ## Requirements
 
-Ensure you have the following installed on your system:
+Make sure you have these installed:
 
-- Git  
-- GNU Stow  
-- Zsh  
+- [Git](https://git-scm.com/)  
+- [GNU Stow](https://www.gnu.org/software/stow/)  
+- [Zsh](https://www.zsh.org/)  
 
 ### macOS (Homebrew)
 
@@ -23,33 +26,44 @@ sudo apt update
 sudo apt install git stow zsh -y
 ```
 
+---
+
 ## Installation
 
-First, check out the dotfiles repo in your $HOME directory using git:
+1. **Clone the repository into your home directory**
 
-```bash
-git clone https://github.com/nizwant/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-```
+    ```bash
+    git clone https://github.com/nizwant/dotfiles.git ~/dotfiles
+    cd ~/dotfiles
+    ```
 
-Then use GNU Stow to create symlinks:
+2. **Create symlinks using GNU Stow**
 
-```bash
-stow .
-```
+    ```bash
+    stow .
+    ```
 
-And run the command to change the default shell:
+3. **Change your default shell to Zsh**
 
-```bash
-chsh -s $(which zsh)
-```
+    ```bash
+    chsh -s $(which zsh)
+    ```
 
-For tmux you need to install TPM:
+4. **Install tmux plugin manager (TPM)**
 
-```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
+    ```bash
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    ```
 
-**Exit from the shell and reconnect again.** Your zsh configuration will load automatically and begin downloading the required packages. Wait for the process to complete, and your zsh setup with all plugins should be ready to use.
+---
 
-Tmux should also load the config file automatically, so features like mouse support will work out of the box. To download TPM plugins, use `[Prefix key] + I`. After that you should see the new theme.
+## Final Steps
+
+- Log out and back in (or restart your terminal).  
+- Zsh will load automatically and install all required plugins.  
+- Tmux will also load the configuration automatically.  
+
+To install TPM plugins, press **`[Prefix key] + I`** inside tmux.  
+After installation, you should see the new theme and features (like mouse support).
+
+---

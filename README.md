@@ -32,19 +32,19 @@ git clone https://github.com/nizwant/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 
-then use GNU stow to create symlinks:
+Then use GNU Stow to create symlinks:
 
 ```bash
 stow .
 ```
 
-and run command to change default shell
+And run the command to change the default shell:
 
 ```bash
 chsh -s $(which zsh)
 ```
 
-for tmux you need to install tmp
+For tmux you need to install TPM:
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -52,4 +52,4 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 **Exit from the shell and reconnect again.** Your zsh configuration will load automatically and begin downloading the required packages. Wait for the process to complete, and your zsh setup with all plugins should be ready to use.
 
-The tmux should also load automatically the config file, so things like mouse support should work out of the box but to download tpm plugins use `[Prefix key] + I`. After that you should see new theme.
+Tmux should also load the config file automatically, so features like mouse support will work out of the box. To download TPM plugins, use `[Prefix key] + I`. After that you should see the new theme.

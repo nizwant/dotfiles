@@ -103,3 +103,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # Conda
 source "${HOME}/conda/etc/profile.d/conda.sh"
+
+# Python/Data Science aliases
+alias pipr='pip install -r requirements.txt'
+alias cenv='conda info --envs'
+alias ca='conda activate'
+alias ccreate='conda create -n'

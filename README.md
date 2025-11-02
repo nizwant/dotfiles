@@ -62,6 +62,8 @@ sudo apt install git stow zsh -y
 - Log out and back in (or restart your terminal).  
 - Zsh will load automatically and install all required plugins.  
 - Tmux will also load the configuration automatically.  
+- Download one of the nerd font, I'm using Jetbrains Mono
+- On ubuntu: `sudo apt install xclip` to enable copying
 
 To install TPM plugins, press **`[Prefix key] + I`** inside tmux.  
 After installation, you should see the new theme and features (like mouse support).

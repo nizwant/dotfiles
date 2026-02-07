@@ -102,7 +102,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Conda
-source "${HOME}/conda/etc/profile.d/conda.sh"
+if [ -f "$HOME/conda/etc/profile.d/conda.sh" ]; then
+  source "$HOME/conda/etc/profile.d/conda.sh"
+fi
 
 # Python/Data Science aliases
 alias pipr='pip install -r requirements.txt'

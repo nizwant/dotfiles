@@ -111,5 +111,3 @@ alias pipr='pip install -r requirements.txt'
 alias cenv='conda info --envs'
 alias ca='conda activate'
 alias ccreate='conda create -n'
-
-[ -f "/Users/mat/.ghcup/env" ] && . "/Users/mat/.ghcup/env" # ghcup-env

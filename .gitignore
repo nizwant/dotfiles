@@ -19,3 +19,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+# TPM installs plugins next to tmux.conf, which is inside this repo
+.config/tmux/plugins/
+
+# macOS sed -i leftovers
+*-e

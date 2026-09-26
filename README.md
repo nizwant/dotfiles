@@ -51,8 +51,11 @@ sudo apt install git stow zsh -y
 
 4. **Install tmux plugin manager (TPM)**
 
+    `tmux.conf` lives in `~/.config/tmux`, so TPM must be cloned into the
+    matching XDG location — that is where TPM installs the other plugins too.
+
     ```bash
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
     ```
 
 ---

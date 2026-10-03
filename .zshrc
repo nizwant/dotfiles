@@ -6,6 +6,23 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Tool versions are managed by mise (~/.config/mise/config.toml),
+# installed into ~/.local/bin by install.sh. Activated early so the
+# tools (fzf, zoxide, bat, ...) are on PATH for the rest of this file.
+typeset -U path
+path=(~/.local/bin $path)
+command -v mise >/dev/null && eval "$(mise activate zsh)"
+
+# Environment
+export EDITOR=nvim
+export VISUAL=nvim
+export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yml"  # macOS default is ~/Library
+export BAT_THEME=ansi  # follow the terminal's own palette
+if command -v bat >/dev/null; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export MANROFFOPT="-c"  # newer groff (Ubuntu) emits escape codes col can't strip
+fi
+
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
 if [ ! -d "$ZINIT_HOME" ]; then
@@ -19,10 +36,23 @@ source "${ZINIT_HOME}/zinit.zsh"
 # add in powerlevel10k
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
+# Line editing
+# Emacs keys explicitly: zsh switches to vi mode when $EDITOR contains "vi".
+bindkey -e
+# Ctrl-X Ctrl-E opens the current command line in $EDITOR.
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
 # add in zsh plugins
-# Load order matters: everything that defines widgets first, then
-# zsh-syntax-highlighting, then zsh-history-substring-search last.
+# Load order matters: compinit before fzf-tab, fzf-tab and fzf's widgets
+# before the plugins that wrap widgets, zsh-syntax-highlighting, then
+# zsh-history-substring-search last.
 zinit light zsh-users/zsh-completions
+autoload -Uz compinit && compinit
+zinit cdreplay -q
+zinit light Aloxaf/fzf-tab
+command -v fzf >/dev/null && source <(fzf --zsh)
 zinit light zsh-users/zsh-autosuggestions
 zinit light MichaelAquilina/zsh-you-should-use
 zinit light hlissner/zsh-autopair
@@ -40,9 +70,6 @@ for _k in "$terminfo[kcud1]" '^[[B' '^[OB'; do
   [[ -n "$_k" ]] && bindkey "$_k" history-substring-search-down
 done
 unset _k
-
-# load completions
-autoload -Uz compinit && compinit
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -66,6 +93,7 @@ setopt auto_pushd           # `cd` pushes the old directory onto the stack
 setopt pushd_ignore_dups    # do not store duplicates in the stack
 setopt pushd_silent         # do not print the stack after pushd/popd
 setopt extended_glob
+setopt interactive_comments # allow `# comments` on the command line
 
 # Colors: LSCOLORS is BSD ls, LS_COLORS is GNU ls *and* completion colouring.
 export LSCOLORS=HxFxCxDxBxegedabagaced
@@ -79,29 +107,63 @@ if [[ -z "$LS_COLORS" ]]; then
   fi
 fi
 
-# Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' squeeze-slashes true
-
 # Misc aliases
 # --color=auto (not --color) so piped/redirected output stays free of escapes.
+# _ls_preview lists a directory in colour for the fzf previews below.
 if ls --color=auto . >/dev/null 2>&1; then
   alias ls='ls --color=auto'
   alias ll='ls -alFh --color=auto'
   alias la='ls -A --color=auto'
+  _ls_preview='ls -1A --color=always'
 else
   alias ls='ls -G'
   alias ll='ls -alFhG'
   alias la='ls -AG'
+  _ls_preview='CLICOLOR_FORCE=1 ls -1AG'
 fi
 if command -v eza >/dev/null 2>&1; then
-  alias ls='eza --color=always --group-directories-first'
-  alias ll='eza -alF --color=always --group-directories-first'
-  alias la='eza -a --color=always --group-directories-first'
-  alias lt='eza -aT --color=always --group-directories-first'
+  alias ls='eza --color=auto --group-directories-first'
+  alias ll='eza -alF --color=auto --group-directories-first'
+  alias la='eza -a --color=auto --group-directories-first'
+  alias lt='eza -aT --color=auto --group-directories-first'
 fi
+# cat: syntax highlighting, otherwise plain (no line numbers, no pager).
+# The real cat handles pipes and flags (bat lacks -v, -e, ...).
+if command -v bat >/dev/null; then
+  unalias cat 2>/dev/null  # an old alias would break `source ~/.zshrc`
+  cat() {
+    if [[ -t 1 && "$1" != -* ]]; then
+      bat --paging=never --style=plain "$@"
+    else
+      command cat "$@"
+    fi
+  }
+fi
+alias lg='lazygit'
+alias cheat="bat --style=plain --language=md ${${(%):-%x}:A:h}/CHEATSHEET.md"
 alias c='clear'
+
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' squeeze-slashes true
+# fzf-tab: Tab opens a fuzzy menu; < and > switch between groups.
+zstyle ':completion:*' menu no
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:complete:(cd|cdi):*' fzf-preview "$_ls_preview \$realpath"
+
+# fzf: Ctrl-R history, Ctrl-T files, Alt-C directories.
+# fd lists the candidates (respects .gitignore, includes dotfiles).
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
+export FZF_DEFAULT_OPTS='--height 40% --layout reverse --border'
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range :300 {}'"
+export FZF_ALT_C_OPTS="--preview '$_ls_preview {}'"
+unset _ls_preview
 
 # Directory navigation
 alias ..='cd ..'
@@ -142,12 +204,6 @@ else
   alias ports='netstat -tulanp'
 fi
 
-# Tool versions are managed by mise (~/.config/mise/config.toml),
-# installed into ~/.local/bin by install.sh.
-typeset -U path
-path=(~/.local/bin $path)
-command -v mise >/dev/null && eval "$(mise activate zsh)"
-
 # Conda
 for _conda_base in "$HOME/conda" "$HOME/miniconda3" "$HOME/anaconda3" \
                    "$HOME/miniforge3" "/opt/homebrew/Caskroom/miniconda/base" \
@@ -164,3 +220,8 @@ alias pipr='pip install -r requirements.txt'
 alias cenv='conda info --envs'
 alias ca='conda activate'
 alias ccreate='conda create -n'
+
+# zoxide must stay last. `cd` works as before for real paths and otherwise
+# jumps to the best-ranked directory matching the words (`cd thes`);
+# `cdi` picks interactively.
+command -v zoxide >/dev/null && eval "$(zoxide init zsh --cmd cd)"

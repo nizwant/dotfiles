@@ -35,7 +35,7 @@ zoxide learns from every `cd`, so jumps get better as you use it.
 |------------------|----------------------------------------------------------|
 | `fd <pattern>`   | Find files by name (skips .gitignore'd; `-H` hidden too) |
 | `rg <pattern>`   | Search file contents (`-i` ignore case, `-l` names only) |
-| `cat <file>`     | Syntax-highlighted cat; `\cat` is the plain one          |
+| `cat <file>`     | Highlighted; with flags or in pipes it's the plain cat   |
 | `bat <file>`     | Viewer with line numbers, git changes and paging         |
 | `man <cmd>`      | Highlighted man pages                                    |
 | `ll` / `la`      | Long listing / include dotfiles                          |

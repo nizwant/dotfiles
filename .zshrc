@@ -140,6 +140,7 @@ if command -v bat >/dev/null; then
   }
 fi
 alias lg='lazygit'
+alias ts='tmux-sessionizer'  # pick a project, open its tmux session
 alias cheat="bat --style=plain --language=md ${${(%):-%x}:A:h}/CHEATSHEET.md"
 alias c='clear'
 

@@ -69,6 +69,11 @@ zoxide learns from every `cd`, so jumps get better as you use it.
 
 | Key              | What it does                                            |
 |------------------|---------------------------------------------------------|
+| `prefix f`       | Pick a project; switch to its session (or create it)    |
+| `ts [dir]`       | Same from the shell, also outside tmux                  |
+| `prefix s`       | List sessions and windows to jump between               |
+| `prefix L`       | Back to the previous session                            |
+| `prefix d`       | Detach; sessions keep running in the background         |
 | `prefix "` / `%` | Split below / right, in the current directory           |
 | `prefix c`       | New window, in the current directory                    |
 | `prefix x` / `&` | Kill pane / window (no confirmation)                    |
@@ -76,6 +81,11 @@ zoxide learns from every `cd`, so jumps get better as you use it.
 | mouse drag       | Copy to clipboard                                       |
 | `prefix r`       | Reload tmux.conf                                        |
 | `prefix I`       | Install plugins                                         |
+| `prefix Ctrl-s`  | Save sessions now (auto-saved every 15 minutes)         |
+| `prefix Ctrl-r`  | Restore the last save (automatic when tmux starts)      |
+
+The project list in `prefix f` is the directories zoxide knows plus git
+repos under `~/Desktop` and `~/dotfiles` (change with `TMUX_SESSIONIZER_ROOTS`).
 
 ## Conda and Python
 

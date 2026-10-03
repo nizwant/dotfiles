@@ -44,9 +44,9 @@ if [ ! -x "$MISE" ]; then
 fi
 
 step "Symlinks"
-# Without a real ~/.config, stow would symlink the whole directory into the
-# repo and every app's config would end up inside it.
-mkdir -p "$HOME/.config"
+# Without real ~/.config and ~/.local/bin, stow would symlink the whole
+# directories into the repo and other apps' files would end up inside it.
+mkdir -p "$HOME/.config" "$HOME/.local/bin"
 cd "$DOTFILES"
 if ! dry_run="$(stow -n -v . 2>&1)"; then
   echo "$dry_run" >&2

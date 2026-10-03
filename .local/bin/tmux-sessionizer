@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Fuzzy-pick a project and switch to its tmux session, creating it if needed.
+# Candidates: directories zoxide knows (most used first), then git repos
+# under $TMUX_SESSIONIZER_ROOTS. Bound to `prefix f`; `ts` in the shell.
+#
+# Usage: tmux-sessionizer [dir]
+set -euo pipefail
+
+# tmux popups don't load .zshrc, so put mise's tools on PATH here.
+PATH="$HOME/.local/share/mise/shims:$PATH"
+
+roots=${TMUX_SESSIONIZER_ROOTS:-"$HOME/Desktop $HOME/dotfiles"}
+
+candidates() {
+  zoxide query --list 2>/dev/null || true
+  # shellcheck disable=SC2086  # roots is a space-separated list
+  fd --hidden --type d --max-depth 4 --exclude node_modules '^\.git$' $roots 2>/dev/null \
+    | sed 's#/\.git/*$##' || true
+}
+
+if [ $# -gt 0 ]; then
+  dir=$(cd "$1" && pwd)
+else
+  # Show paths with ~ but keep the full path in a hidden first column.
+  tilde='~'
+  dir=$(candidates \
+    | awk '!seen[$0]++' \
+    | while IFS= read -r d; do
+        if [ -d "$d" ]; then printf '%s\t%s\n' "$d" "${d/#"$HOME"/$tilde}"; fi
+      done \
+    | fzf --delimiter='\t' --with-nth=2 --prompt='project> ' \
+          --preview='ls -1A --color=always {1}' \
+    | cut -f1) || exit 0
+fi
+[ -n "$dir" ] || exit 0
+
+# tmux session names can't contain . or :
+clean() { printf '%s' "$1" | tr '.:' '__'; }
+name=$(clean "$(basename "$dir")")
+
+# Same folder name in a different place: prefix the parent folder.
+if tmux has-session -t "=$name" 2>/dev/null &&
+   [ "$(tmux display-message -p -t "=$name" '#{session_path}')" != "$dir" ]; then
+  name=$(clean "$(basename "$(dirname "$dir")")")_$name
+fi
+
+if [ -z "${TMUX:-}" ]; then
+  exec tmux new-session -A -s "$name" -c "$dir"
+fi
+tmux has-session -t "=$name" 2>/dev/null || tmux new-session -d -s "$name" -c "$dir"
+tmux switch-client -t "=$name"

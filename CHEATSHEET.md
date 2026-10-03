@@ -40,6 +40,7 @@ zoxide learns from every `cd`, so jumps get better as you use it.
 | `man <cmd>`      | Highlighted man pages                                    |
 | `ll` / `la`      | Long listing / include dotfiles                          |
 | `ports` / `myip` | Listening ports / public IP                              |
+| `tldr <cmd>`     | Short, example-first help for a command                  |
 
 ## Git
 
@@ -85,6 +86,12 @@ zoxide learns from every `cd`, so jumps get better as you use it.
 | `cenv`            | List envs                                              |
 | `ccreate <name>`  | Create an env                                          |
 | `pipr`            | `pip install -r requirements.txt`                      |
+| `uv venv`         | Create a fast venv for a non-conda project             |
+| `uv pip install`  | Install into it, much faster than pip                  |
+| `uv run <script>` | Run with the project's dependencies                    |
+
+Outside a conda env, `python` is mise's Python 3.13; an activated conda
+env's `python` takes precedence.
 
 ## Tool versions (mise)
 
@@ -94,5 +101,8 @@ zoxide learns from every `cd`, so jumps get better as you use it.
 | `mise upgrade`            | Update every tool                               |
 | `mise use -g <tool>@<v>`  | Add or pin a tool everywhere (edits dotfiles)   |
 | `mise use node@20`        | Pin a version for the current project only      |
+| `mise registry <name>`    | Check whether mise can install a tool           |
 
-Projects with an `.nvmrc` get their Node version automatically.
+New tool? Try `mise use -g <tool>` first; if mise doesn't have it,
+`brew install` it and add it to `~/dotfiles/Brewfile`. Projects with an
+`.nvmrc` or `.python-version` get those versions automatically.

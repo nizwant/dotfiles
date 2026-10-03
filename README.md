@@ -29,11 +29,11 @@ Follow this guide to set them up on your system.
 
     It is safe to re-run. It:
 
-    - installs the base packages (`stow`, `tmux`, and on Linux also `git`, `zsh`, `xclip`)
+    - installs the base packages: on macOS everything in the `Brewfile`
+      (`stow`, `tmux`, apps, fonts); on Linux `git`, `stow`, `zsh`, `tmux`, `xclip` via `apt`
     - installs [mise](https://mise.jdx.dev/) into `~/.local/bin`
     - symlinks the dotfiles with `stow` (it stops before touching anything if a file is in the way)
-    - installs the tools listed in `.config/mise/config.toml`: Node, fzf, zoxide,
-      bat, fd, ripgrep, delta and lazygit
+    - installs the languages and CLI tools listed in `.config/mise/config.toml`
     - clones the tmux plugin manager (TPM) into `~/.config/tmux/plugins/tpm`
 
 3. **Change your default shell to Zsh** (if it isn't already)
@@ -57,10 +57,19 @@ Follow this guide to set them up on your system.
 Keys and commands for everything set up here are in
 [CHEATSHEET.md](CHEATSHEET.md). Run `cheat` to show it in the terminal.
 
-## Tool versions
+## Where each tool comes from
 
-Node and the CLI tools are managed by mise, using prebuilt binaries, so
-nothing is compiled (Homebrew has no bottles for older macOS). Versions live
-in `.config/mise/config.toml`. `mise use -g <tool>@<version>` updates that
-file, and `mise upgrade` updates everything. Projects with a `.nvmrc` get
-their own Node version automatically.
+Every tool is declared in exactly one place:
+
+| Layer | File | What goes there |
+| --- | --- | --- |
+| **mise** | `.config/mise/config.toml` | Languages (Node, Python, Go, Java) and CLI tools (gh, neovim, fzf, ...). Prebuilt binaries, same on macOS and Linux. |
+| **Homebrew** (macOS) | `Brewfile` | GUI apps, fonts, and system tools mise can't provide (`stow`, `tmux`, `nmap`, ...). |
+| **conda** | per project | Data-science environments. An activated env's `python` takes precedence over mise's. |
+
+Add a new CLI tool with mise first (`mise use -g <tool>`, which edits the
+config in this repo); use `brew install` only when mise doesn't have it, and
+then add it to the `Brewfile`. `mise upgrade` updates every mise tool, and
+`mise use <tool>@<version>` inside a project pins a version for just that
+project. Projects with `.nvmrc` or `.python-version` files get those versions
+automatically.

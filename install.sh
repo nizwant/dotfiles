@@ -14,10 +14,11 @@ case "$(uname -s)" in
       echo "Homebrew is required: https://brew.sh" >&2
       exit 1
     fi
-    # git and zsh ship with macOS
-    for pkg in stow tmux; do
-      command -v "$pkg" >/dev/null || brew install "$pkg"
-    done
+    # git and zsh ship with macOS; the Brewfile has stow, tmux, apps and fonts.
+    # --no-upgrade: on older macOS an upgrade means compiling from source.
+    if ! brew bundle check --no-upgrade --file="$DOTFILES/Brewfile" >/dev/null; then
+      brew bundle install --no-upgrade --file="$DOTFILES/Brewfile"
+    fi
     ;;
   Linux)
     SUDO=""
@@ -67,9 +68,11 @@ step "Done. Remaining manual steps:"
 if [ "$(basename "${SHELL:-}")" != "zsh" ]; then
   echo "  - Make zsh your shell:  chsh -s \"$(command -v zsh)\""
 fi
-echo "  - Install a Nerd Font (e.g. JetBrains Mono) and select it in your terminal profile"
 if [ "$(uname -s)" = "Darwin" ]; then
+  echo "  - Select \"JetBrainsMono Nerd Font\" (installed by the Brewfile) in your terminal profile"
   echo "  - Terminal.app: Settings > Profiles > Keyboard > \"Use Option as Meta key\""
+else
+  echo "  - Install a Nerd Font (e.g. JetBrains Mono) and select it in your terminal profile"
 fi
 echo "  - Start tmux and press prefix + I to install its plugins"
 echo "  - Open a new shell: zsh installs its plugins on first start"

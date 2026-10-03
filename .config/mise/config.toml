@@ -1,14 +1,37 @@
+# Everything here is a prebuilt binary, so nothing compiles (Homebrew has
+# no bottles for older macOS). Pin a different version for one project with
+# `mise use <tool>@<version>` inside it. See CHEATSHEET.md.
+
 [tools]
+# Languages
 node = "24"
-# CLI tools: prebuilt binaries, no compiling (see CHEATSHEET.md)
+python = "3.13"      # default python/python3 outside conda envs
+uv = "latest"
+go = "1.26"          # Go 1.27+ requires macOS 13
+java = "temurin-21"
+
+# Shell tools
 fzf = "latest"
 zoxide = "latest"
 bat = "latest"
 fd = "latest"
 ripgrep = "latest"
+tlrc = "latest"      # provides `tldr`
+
+# Git
 delta = "latest"
 lazygit = "latest"
+gh = "latest"
+
+# Dev tools
+"aqua:neovim/neovim" = "latest"
+jq = "latest"
+terraform = "1.11"   # newer versions upgrade state files; bump deliberately
+hadolint = "latest"
+protoc = "latest"
+cmake = "latest"
+"github:maaslalani/slides" = "latest"
 
 [settings]
-# honour .nvmrc / .node-version files in projects
-idiomatic_version_file_enable_tools = ["node"]
+# honour .nvmrc / .node-version / .python-version files in projects
+idiomatic_version_file_enable_tools = ["node", "python"]

@@ -1,0 +1,7 @@
+\.git
+\.gitignore
+\.DS_Store
+^/README.*
+^/install\.sh
+^/\.stow-local-ignore
+^/\.claude

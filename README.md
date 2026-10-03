@@ -7,24 +7,8 @@ Follow this guide to set them up on your system.
 
 ## Requirements
 
-Make sure you have these installed:
-
-- [Git](https://git-scm.com/)  
-- [GNU Stow](https://www.gnu.org/software/stow/)  
-- [Zsh](https://www.zsh.org/)  
-
-### macOS (Homebrew)
-
-```bash
-brew install git stow zsh
-```
-
-### Ubuntu/Debian
-
-```bash
-sudo apt update
-sudo apt install git stow zsh -y
-```
+- **macOS:** [Homebrew](https://brew.sh/). Git and Zsh ship with the system.
+- **Ubuntu/Debian:** nothing extra; `install.sh` installs what it needs with `apt`.
 
 ---
 
@@ -37,38 +21,39 @@ sudo apt install git stow zsh -y
     cd ~/dotfiles
     ```
 
-2. **Create symlinks using GNU Stow**
+2. **Run the install script**
 
     ```bash
-    stow .
+    ./install.sh
     ```
 
-3. **Change your default shell to Zsh**
+    It is safe to re-run. It:
+
+    - installs the base packages (`stow`, `tmux`, and on Linux also `git`, `zsh`, `xclip`)
+    - installs [mise](https://mise.jdx.dev/) into `~/.local/bin`
+    - symlinks the dotfiles with `stow` (it stops before touching anything if a file is in the way)
+    - installs the tools listed in `.config/mise/config.toml` (currently Node)
+    - clones the tmux plugin manager (TPM) into `~/.config/tmux/plugins/tpm`
+
+3. **Change your default shell to Zsh** (if it isn't already)
 
     ```bash
     chsh -s $(which zsh)
-    ```
-
-4. **Install tmux plugin manager (TPM)**
-
-    `tmux.conf` lives in `~/.config/tmux`, so TPM must be cloned into the
-    matching XDG location — that is where TPM installs the other plugins too.
-
-    ```bash
-    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
     ```
 
 ---
 
 ## Final Steps
 
-- Log out and back in (or restart your terminal).  
-- Zsh will load automatically and install all required plugins.  
-- Tmux will also load the configuration automatically.  
-- Download one of the nerd font, I'm using Jetbrains Mono
-- On ubuntu: `sudo apt install xclip` to enable copying
+- Restart your terminal. Zsh installs its plugins on first start.
+- Install a Nerd Font (I'm using JetBrains Mono) and select it in your terminal profile.
+- **macOS Terminal:** enable *Settings → Profiles → Keyboard → Use Option as Meta key*
+  so Alt shortcuts (Alt-b / Alt-f word jumps, Alt-. last argument) work.
+- Inside tmux, press **`[Prefix key] + I`** to install the tmux plugins.
 
-To install TPM plugins, press **`[Prefix key] + I`** inside tmux.  
-After installation, you should see the new theme and features (like mouse support).
+## Tool versions
 
----
+Node (and later other CLI tools) are managed by mise. Versions live in
+`.config/mise/config.toml`. `mise use -g <tool>@<version>` updates that file,
+and `mise upgrade` updates everything. Projects with a `.nvmrc` get their own
+Node version automatically.

@@ -1,0 +1,4 @@
+# Found via LG_CONFIG_FILE (set in .zshrc); lazygit's macOS default is ~/Library.
+git:
+  diffRenderers:
+    - command: delta --dark --paging=never

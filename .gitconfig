@@ -1,0 +1,32 @@
+[user]
+	name = nizwant
+	email = mateusznizwantowski@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[core]
+	# delta (installed by mise) highlights diffs; see CHEATSHEET.md
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true      # n / N jump between files
+	line-numbers = true
+	dark = true
+[diff]
+	colorMoved = default
+	algorithm = histogram
+[merge]
+	conflictStyle = zdiff3   # conflicts also show the common ancestor
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true   # first push of a new branch sets its upstream
+[fetch]
+	prune = true             # drop remote branches that were deleted
+[branch]
+	sort = -committerdate    # `git branch` lists recent branches first
+[init]
+	defaultBranch = main

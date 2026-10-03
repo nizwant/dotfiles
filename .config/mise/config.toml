@@ -1,5 +1,13 @@
 [tools]
 node = "24"
+# CLI tools: prebuilt binaries, no compiling (see CHEATSHEET.md)
+fzf = "latest"
+zoxide = "latest"
+bat = "latest"
+fd = "latest"
+ripgrep = "latest"
+delta = "latest"
+lazygit = "latest"
 
 [settings]
 # honour .nvmrc / .node-version files in projects

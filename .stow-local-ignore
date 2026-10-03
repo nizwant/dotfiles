@@ -2,6 +2,7 @@
 \.gitignore
 \.DS_Store
 ^/README.*
+^/CHEATSHEET\.md
 ^/install\.sh
 ^/\.stow-local-ignore
 ^/\.claude

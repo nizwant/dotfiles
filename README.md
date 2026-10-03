@@ -32,7 +32,8 @@ Follow this guide to set them up on your system.
     - installs the base packages (`stow`, `tmux`, and on Linux also `git`, `zsh`, `xclip`)
     - installs [mise](https://mise.jdx.dev/) into `~/.local/bin`
     - symlinks the dotfiles with `stow` (it stops before touching anything if a file is in the way)
-    - installs the tools listed in `.config/mise/config.toml` (currently Node)
+    - installs the tools listed in `.config/mise/config.toml`: Node, fzf, zoxide,
+      bat, fd, ripgrep, delta and lazygit
     - clones the tmux plugin manager (TPM) into `~/.config/tmux/plugins/tpm`
 
 3. **Change your default shell to Zsh** (if it isn't already)
@@ -51,9 +52,15 @@ Follow this guide to set them up on your system.
   so Alt shortcuts (Alt-b / Alt-f word jumps, Alt-. last argument) work.
 - Inside tmux, press **`[Prefix key] + I`** to install the tmux plugins.
 
+## Cheat sheet
+
+Keys and commands for everything set up here are in
+[CHEATSHEET.md](CHEATSHEET.md). Run `cheat` to show it in the terminal.
+
 ## Tool versions
 
-Node (and later other CLI tools) are managed by mise. Versions live in
-`.config/mise/config.toml`. `mise use -g <tool>@<version>` updates that file,
-and `mise upgrade` updates everything. Projects with a `.nvmrc` get their own
-Node version automatically.
+Node and the CLI tools are managed by mise, using prebuilt binaries, so
+nothing is compiled (Homebrew has no bottles for older macOS). Versions live
+in `.config/mise/config.toml`. `mise use -g <tool>@<version>` updates that
+file, and `mise upgrade` updates everything. Projects with a `.nvmrc` get
+their own Node version automatically.

@@ -73,3 +73,4 @@ if [ "$(uname -s)" = "Darwin" ]; then
 fi
 echo "  - Start tmux and press prefix + I to install its plugins"
 echo "  - Open a new shell: zsh installs its plugins on first start"
+echo "  - Run 'cheat' for the keys and commands this setup adds"

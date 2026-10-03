@@ -25,7 +25,6 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light MichaelAquilina/zsh-you-should-use
-zinit light djui/alias-tips
 zinit light hlissner/zsh-autopair
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-history-substring-search
@@ -50,7 +49,7 @@ autoload -Uz compinit && compinit
 
 
 # History
-HISTSIZE=5000
+HISTSIZE=100000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 setopt appendhistory
@@ -143,10 +142,11 @@ else
   alias ports='netstat -tulanp'
 fi
 
-# Nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Tool versions are managed by mise (~/.config/mise/config.toml),
+# installed into ~/.local/bin by install.sh.
+typeset -U path
+path=(~/.local/bin $path)
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 
 # Conda
 for _conda_base in "$HOME/conda" "$HOME/miniconda3" "$HOME/anaconda3" \

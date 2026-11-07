@@ -14,6 +14,7 @@ brew "smartmontools"
 brew "wimlib"
 brew "cups"
 brew "iproute2mac"   # `ip` command
+brew "poppler"       # pdftotext command
 
 # Networking
 brew "nmap"
